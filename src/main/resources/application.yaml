@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: identity-service
+
+  datasource:
+    url: jdbc:mariadb://localhost:3306/login_template?allowPublicKeyRetrieval=true&useSSL=false
+    username: identity-user
+    password: secret
+    driver-class-name: org.mariadb.jdbc.Driver
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    validate-on-migrate: true
+
+    jpa:
+      hibernate:
+        ddl-auto: validate
+
