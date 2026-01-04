@@ -7,7 +7,7 @@ public record UserId(Long userId) {
 
     public UserId {
         if(userId==null){
-            throw new InvalidValueException("UserId can not be null");
+            throw new InvalidValueException("user.userId.null");
         }
     }
 
