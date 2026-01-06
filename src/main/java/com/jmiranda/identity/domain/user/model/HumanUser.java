@@ -14,10 +14,11 @@ public final class HumanUser extends User {
     private InstitutionalEmail institutionalEmail;
     private PhoneNumber phoneNumber;
     private BirthDate birthDate;
+    private Identification identification;
 
     private HumanUser(UserId id, Instant createdAt, FirstName firstName, LastName lastName,
                  PersonalEmail personalEmail, InstitutionalEmail institutionalEmail,
-                 PhoneNumber phoneNumber, BirthDate birthDate) {
+                 PhoneNumber phoneNumber, BirthDate birthDate, Identification identification) {
 
         super(id, Objects.requireNonNull(createdAt));
         this.firstName = Objects.requireNonNull(firstName);
@@ -26,6 +27,7 @@ public final class HumanUser extends User {
         this.institutionalEmail = institutionalEmail;
         this.phoneNumber = Objects.requireNonNull(phoneNumber);
         this.birthDate = Objects.requireNonNull(birthDate);
+        this.identification = Objects.requireNonNull(identification);
 
     }
 
@@ -35,7 +37,8 @@ public final class HumanUser extends User {
             PersonalEmail personalEmail,
             InstitutionalEmail institutionalEmail,
             PhoneNumber phone,
-            BirthDate birthDate
+            BirthDate birthDate,
+            Identification identification
     ) {
         return new HumanUser(
                 null,
@@ -45,7 +48,8 @@ public final class HumanUser extends User {
                 personalEmail,
                 institutionalEmail,
                 phone,
-                birthDate
+                birthDate,
+                identification
         );
     }
 
@@ -57,7 +61,8 @@ public final class HumanUser extends User {
             PersonalEmail personalEmail,
             InstitutionalEmail institutionalEmail,
             PhoneNumber phone,
-            BirthDate birthDate
+            BirthDate birthDate,
+            Identification identification
     ) {
         return new HumanUser(
                 id,
@@ -67,7 +72,8 @@ public final class HumanUser extends User {
                 personalEmail,
                 institutionalEmail,
                 phone,
-                birthDate
+                birthDate,
+                identification
         );
     }
 }

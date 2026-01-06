@@ -7,7 +7,7 @@ import java.time.Instant;
 import java.util.Objects;
 
 public sealed abstract class User permits HumanUser, SystemUser, AnonymousUser {
-    private UserId id;
+    private final UserId id;
     private final Instant createdAt;
 
     public User(UserId id, Instant createdAt) {
