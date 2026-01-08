@@ -76,4 +76,9 @@ public final class HumanUser extends User {
                 identification
         );
     }
+
+    @Override
+    public UserId getId() {
+        return super.getId();
+    }
 }

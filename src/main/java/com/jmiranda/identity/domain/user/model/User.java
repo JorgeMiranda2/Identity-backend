@@ -14,5 +14,8 @@ public sealed abstract class User permits HumanUser, SystemUser, AnonymousUser {
         this.id = id;
         this.createdAt = createdAt;
     }
+    public UserId getId() {
+        return id;
+    }
 
 }

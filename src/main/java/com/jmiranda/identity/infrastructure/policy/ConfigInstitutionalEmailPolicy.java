@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 public class ConfigInstitutionalEmailPolicy implements InstitutionalEmailPolicy {
     private final String domain;
 
-    public ConfigInstitutionalEmailPolicy(
-            @Value("${institution.email.domain}") String domain
-    ) {
+    public ConfigInstitutionalEmailPolicy(String domain) {
         this.domain = domain;
     }
 
