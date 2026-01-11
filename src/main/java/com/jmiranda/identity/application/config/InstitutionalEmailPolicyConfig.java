@@ -1,7 +1,7 @@
 package com.jmiranda.identity.application.config;
 
 import com.jmiranda.identity.domain.shared.policy.InstitutionalEmailPolicy;
-import com.jmiranda.identity.infrastructure.policy.ConfigInstitutionalEmailPolicy;
+import com.jmiranda.identity.infrastructure.user.policy.ConfigInstitutionalEmailPolicy;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

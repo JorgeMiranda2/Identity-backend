@@ -35,6 +35,10 @@ public final class InstitutionalEmail {
         return new InstitutionalEmail(rawEmail);
     }
 
+    public static InstitutionalEmail restore(String email) {
+        return new InstitutionalEmail(email);
+    }
+
     public String value() {
         return email;
     }

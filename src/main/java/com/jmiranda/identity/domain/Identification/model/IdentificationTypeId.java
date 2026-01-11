@@ -1,17 +1,19 @@
 package com.jmiranda.identity.domain.Identification.model;
 
-public final class IdentificationTypeId {
-    private final String value;
+import java.util.UUID;
 
-    private IdentificationTypeId(String value) {
+public final class IdentificationTypeId {
+    private final UUID value;
+
+    private IdentificationTypeId(UUID value) {
         this.value = value;
     }
 
-    public static IdentificationTypeId of(String value) {
+    public static IdentificationTypeId of(UUID value) {
         return new IdentificationTypeId(value);
     }
 
-    public String value() {
+    public UUID value() {
         return value;
     }
 }

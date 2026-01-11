@@ -1,4 +1,4 @@
-package com.jmiranda.identity.infrastructure.policy;
+package com.jmiranda.identity.infrastructure.Identification.policy;
 
 import com.jmiranda.identity.domain.Identification.model.IdentificationCode;
 import com.jmiranda.identity.domain.Identification.model.IdentificationTypeCode;

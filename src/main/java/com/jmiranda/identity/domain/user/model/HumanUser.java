@@ -3,6 +3,7 @@ package com.jmiranda.identity.domain.user.model;
 import com.jmiranda.identity.domain.shared.valueobject.InstitutionalEmail;
 import com.jmiranda.identity.domain.shared.valueobject.PersonalEmail;
 
+import java.time.Clock;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -38,11 +39,12 @@ public final class HumanUser extends User {
             InstitutionalEmail institutionalEmail,
             PhoneNumber phone,
             BirthDate birthDate,
-            Identification identification
+            Identification identification,
+            Clock systemClock
     ) {
         return new HumanUser(
-                null,
-                Instant.now(),
+                UserId.generate(),
+                systemClock.instant(),
                 firstName,
                 lastName,
                 personalEmail,
@@ -53,16 +55,16 @@ public final class HumanUser extends User {
         );
     }
 
-    public static HumanUser rehydrate(
+    public static HumanUser restore(
             UserId id,
-            Instant createdAt,
             FirstName firstName,
             LastName lastName,
             PersonalEmail personalEmail,
             InstitutionalEmail institutionalEmail,
             PhoneNumber phone,
             BirthDate birthDate,
-            Identification identification
+            Identification identification,
+            Instant createdAt
     ) {
         return new HumanUser(
                 id,

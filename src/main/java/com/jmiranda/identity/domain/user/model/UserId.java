@@ -1,34 +1,38 @@
 package com.jmiranda.identity.domain.user.model;
 
-import com.jmiranda.identity.domain.shared.exception.InvalidValueException;
+import java.util.Objects;
+import java.util.UUID;
 
 public final class UserId {
 
-    private final long id;
-    private final static Long SYSTEM_ID = 0L;
-    private final static Long ANONYMOUS_ID = -1L;
-    private UserId(long id){
-    this.id = id;
+    private final UUID value;
+
+    private UserId(UUID value) {
+        this.value = Objects.requireNonNull(value);
     }
 
-    public static UserId of(Long value){
-        if(value==null){
-            throw new InvalidValueException("user.userId.null");
-        }
-        if (value <= 0) {
-            throw new InvalidValueException("user.userId.invalid");
-        }
+    public static UserId generate() {
+        return new UserId(UUID.randomUUID());
+    }
+
+    public static UserId system() {
+        return new UserId(
+                UUID.fromString("ffffffff-ffff-ffff-ffff-ffffffffffff")
+        );
+    }
+
+    public static UserId anonymous() {
+        return new UserId(
+                UUID.fromString("00000000-0000-0000-0000-000000000001")
+        );
+    }
+
+    public static UserId from(UUID value) {
         return new UserId(value);
     }
 
-    public static UserId system(){
-        return new UserId(SYSTEM_ID);
-    }
-    public static UserId anonymous(){
-        return new UserId(ANONYMOUS_ID);
-    }
-
-    public Long value(){
-        return this.id;
+    public UUID value() {
+        return value;
     }
 }
+

@@ -1,8 +1,7 @@
-package com.jmiranda.identity.infrastructure.policy;
+package com.jmiranda.identity.infrastructure.user.policy;
 
 import com.jmiranda.identity.domain.shared.policy.InstitutionalEmailPolicy;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import org.springframework.beans.factory.annotation.Value;
+
 
 public class ConfigInstitutionalEmailPolicy implements InstitutionalEmailPolicy {
     private final String domain;
