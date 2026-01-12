@@ -1,4 +1,4 @@
-package com.jmiranda.identity.infrastructure.user.persistance.jpa;
+package com.jmiranda.identity.infrastructure.user.web.persistance.jpa;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -9,4 +9,5 @@ public interface SpringDataUserRepository extends JpaRepository<UserEntity, UUID
     Optional<UserEntity> findByPersonalEmail(String email);
 
     boolean existsByPersonalEmail(String email);
+    Optional<UserEntity> findByIdentificationNumber(String identificationNumber);
 }

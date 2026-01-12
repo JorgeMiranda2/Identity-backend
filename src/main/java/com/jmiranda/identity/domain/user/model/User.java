@@ -17,5 +17,8 @@ public sealed abstract class User permits HumanUser, SystemUser, AnonymousUser {
     public UserId getId() {
         return id;
     }
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
 
 }

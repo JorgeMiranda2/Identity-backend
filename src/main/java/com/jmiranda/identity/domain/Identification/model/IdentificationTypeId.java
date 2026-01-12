@@ -1,5 +1,7 @@
 package com.jmiranda.identity.domain.Identification.model;
 
+import com.jmiranda.identity.domain.shared.exception.InvalidValueException;
+
 import java.util.UUID;
 
 public final class IdentificationTypeId {
@@ -9,8 +11,16 @@ public final class IdentificationTypeId {
         this.value = value;
     }
 
-    public static IdentificationTypeId of(UUID value) {
-        return new IdentificationTypeId(value);
+    public static IdentificationTypeId of(String raw) {
+        if (raw == null || raw.isBlank()) {
+            throw new InvalidValueException("Identification.IdentificationTypeId.required");
+        }
+
+        try {
+            return new IdentificationTypeId(UUID.fromString(raw));
+        } catch (IllegalArgumentException e) {
+            throw new InvalidValueException("Identification.IdentificationTypeId.invalid");
+        }
     }
 
     public UUID value() {

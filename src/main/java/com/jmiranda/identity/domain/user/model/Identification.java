@@ -30,4 +30,11 @@ public final class Identification {
         return code;
     }
 
+    public IdentificationTypeId getTypeId() {
+        return typeId;
+    }
+
+    public IdentificationCode getCode() {
+        return code;
+    }
 }

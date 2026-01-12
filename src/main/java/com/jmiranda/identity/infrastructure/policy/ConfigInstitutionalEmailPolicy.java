@@ -1,4 +1,4 @@
-package com.jmiranda.identity.infrastructure.user.policy;
+package com.jmiranda.identity.infrastructure.policy;
 
 import com.jmiranda.identity.domain.shared.policy.InstitutionalEmailPolicy;
 

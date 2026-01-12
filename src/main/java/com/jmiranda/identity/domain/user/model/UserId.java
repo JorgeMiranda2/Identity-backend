@@ -1,5 +1,8 @@
 package com.jmiranda.identity.domain.user.model;
 
+import com.jmiranda.identity.domain.Identification.model.IdentificationTypeId;
+import com.jmiranda.identity.domain.shared.exception.InvalidValueException;
+
 import java.util.Objects;
 import java.util.UUID;
 
@@ -27,8 +30,16 @@ public final class UserId {
         );
     }
 
-    public static UserId from(UUID value) {
-        return new UserId(value);
+    public static UserId of(String value) {
+        if (value == null || value.isBlank()) {
+            throw new InvalidValueException("user.userId.required");
+        }
+
+        try {
+            return new UserId(UUID.fromString(value));
+        } catch (IllegalArgumentException e) {
+            throw new InvalidValueException("user.userId.invalid");
+        }
     }
 
     public UUID value() {

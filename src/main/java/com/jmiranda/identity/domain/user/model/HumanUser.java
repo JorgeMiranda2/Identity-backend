@@ -83,4 +83,37 @@ public final class HumanUser extends User {
     public UserId getId() {
         return super.getId();
     }
+
+    @Override
+    public Instant getCreatedAt() {
+        return super.getCreatedAt();
+    }
+
+    public FirstName getFirstName() {
+        return firstName;
+    }
+
+    public LastName getLastName() {
+        return lastName;
+    }
+
+    public PersonalEmail getPersonalEmail() {
+        return personalEmail;
+    }
+
+    public InstitutionalEmail getInstitutionalEmail() {
+        return institutionalEmail;
+    }
+
+    public PhoneNumber getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public BirthDate getBirthDate() {
+        return birthDate;
+    }
+
+    public Identification getIdentification() {
+        return identification;
+    }
 }

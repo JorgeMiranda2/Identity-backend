@@ -3,13 +3,13 @@ package com.jmiranda.identity.domain.shared.valueobject;
 
 import com.jmiranda.identity.domain.shared.exception.InvalidValueException;
 
-public record PersonalEmail(String email) {
+public record PersonalEmail(String value) {
     public PersonalEmail {
-        if (email == null) {
+        if (value == null) {
             throw new InvalidValueException("PersonalEmail cannot be null");
         }
 
-        String trimmedEmail = email.trim();
+        String trimmedEmail = value.trim();
 
         if (trimmedEmail.isBlank()) {
             throw new InvalidValueException("PersonalEmail cannot be blank");
@@ -20,6 +20,7 @@ public record PersonalEmail(String email) {
             throw new InvalidValueException("PersonalEmail is not valid");
         }
 
-        email = trimmedEmail;
+        value = trimmedEmail;
     }
+
 }

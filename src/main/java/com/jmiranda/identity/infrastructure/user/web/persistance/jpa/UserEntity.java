@@ -1,23 +1,26 @@
-package com.jmiranda.identity.infrastructure.user.persistance.jpa;
+package com.jmiranda.identity.infrastructure.user.web.persistance.jpa;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Getter
+
 @Entity
 @Table(name = "users")
+@Getter
+@Setter
 public class UserEntity {
 
     @Id
     @Column(nullable = false, updatable = false)
-    private UUID id;
+    private String id;
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
@@ -38,7 +41,7 @@ public class UserEntity {
     private String identificationNumber;
 
     @Column(name= "identification_type_id")
-    private UUID identificationTypeId;
+    private String identificationTypeId;
 
     @Column(name = "institutional_email", unique = true)
     private String institutionalEmail;
@@ -46,10 +49,10 @@ public class UserEntity {
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
-    protected UserEntity() {} // JPA
+    public UserEntity() {} // JPA
 
     public UserEntity(
-            UUID id,
+            String id,
             String firstName,
             String lastName,
             String personalEmail,
