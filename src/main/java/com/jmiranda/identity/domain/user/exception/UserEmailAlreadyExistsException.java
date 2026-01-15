@@ -6,7 +6,7 @@ import com.jmiranda.identity.domain.shared.valueobject.PersonalEmail;
 public class UserEmailAlreadyExistsException extends DomainException {
 
     public UserEmailAlreadyExistsException(PersonalEmail email) {
-        super("User with email " + email.value() + " already exists.");
+        super("415", "User.email", "EMAIL_ALREADY_EXISTS:" + email.value());
     }
 }
 

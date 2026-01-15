@@ -6,21 +6,21 @@ public record FirstName(String value) {
 
     public FirstName {
         if (value == null) {
-            throw new InvalidValueException("user.firstName.null");
+            throw InvalidValueException.required("user.firstName.null");
         }
 
         value = value.trim();
 
         if (value.isBlank()) {
-            throw new InvalidValueException("user.firstName.blank");
+            throw InvalidValueException.required("user.firstName.blank");
         }
 
         if (value.length() < 2 || value.length() > 64) {
-            throw new InvalidValueException("user.firstName.size");
+            throw InvalidValueException.invalidFormat("user.firstName.size");
         }
 
         if (!value.matches("^[a-zA-ZÀ-ÿ\\s]+$")) {
-            throw new InvalidValueException("user.firstName.format");
+            throw InvalidValueException.invalidFormat("user.firstName.format");
         }
     }
 }

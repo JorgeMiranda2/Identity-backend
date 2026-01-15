@@ -13,13 +13,13 @@ public final class IdentificationTypeId {
 
     public static IdentificationTypeId of(String raw) {
         if (raw == null || raw.isBlank()) {
-            throw new InvalidValueException("Identification.IdentificationTypeId.required");
+            throw InvalidValueException.required("IdentificationTypeId");
         }
 
         try {
             return new IdentificationTypeId(UUID.fromString(raw));
         } catch (IllegalArgumentException e) {
-            throw new InvalidValueException("Identification.IdentificationTypeId.invalid");
+            throw InvalidValueException.invalidFormat("IdentificationTypeId");
         }
     }
 

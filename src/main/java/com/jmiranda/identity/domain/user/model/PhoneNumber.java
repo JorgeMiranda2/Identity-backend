@@ -6,17 +6,17 @@ public record PhoneNumber(String value) {
 
     public PhoneNumber {
         if (value == null) {
-            throw new InvalidValueException("user.phoneNumber.null");
+            throw InvalidValueException.required("user.phoneNumber.null");
         }
 
         String trimmedValue = value.trim();
 
         if (trimmedValue.isBlank()) {
-            throw new InvalidValueException("user.phoneNumber.blank");
+            throw InvalidValueException.required("user.phoneNumber.blank");
         }
 
         if (!trimmedValue.matches("^\\+?[1-9]\\d{1,14}$")) {
-            throw new InvalidValueException("user.phoneNumber.format");
+            throw InvalidValueException.invalidFormat("user.phoneNumber.format");
         }
 
         value = trimmedValue;

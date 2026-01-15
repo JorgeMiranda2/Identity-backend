@@ -32,13 +32,13 @@ public final class UserId {
 
     public static UserId of(String value) {
         if (value == null || value.isBlank()) {
-            throw new InvalidValueException("user.userId.required");
+            throw InvalidValueException.required("user.userId.required");
         }
 
         try {
             return new UserId(UUID.fromString(value));
         } catch (IllegalArgumentException e) {
-            throw new InvalidValueException("user.userId.invalid");
+            throw InvalidValueException.invalidFormat("user.userId.invalid");
         }
     }
 

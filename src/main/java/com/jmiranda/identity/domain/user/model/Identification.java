@@ -20,7 +20,7 @@ public final class Identification {
     ) {
 
         if (typeId == null) {
-            throw new InvalidValueException("identification.type.null");
+            throw InvalidValueException.required("identification.type.null");
         }
 
         return new Identification(typeId, code);

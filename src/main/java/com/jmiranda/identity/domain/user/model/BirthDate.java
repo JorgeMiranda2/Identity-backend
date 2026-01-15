@@ -16,26 +16,26 @@ public final class BirthDate {
 
     public static BirthDate of(String raw) {
         if (raw == null) {
-            throw new InvalidValueException("birthDate.null");
+            throw InvalidValueException.required("birthDate.null");
         }
 
         try {
             return new BirthDate(LocalDate.parse(raw));
         } catch (DateTimeParseException e) {
-            throw new InvalidValueException("birthDate.format");
+            throw InvalidValueException.invalidFormat("birthDate.format");
         }
     }
 
     public static BirthDate of(LocalDate date) {
         if (date == null) {
-            throw new InvalidValueException("birthDate.null");
+            throw InvalidValueException.required("birthDate.null");
         }
         return new BirthDate(date);
     }
 
     private void validate() {
         if (value.isAfter(LocalDate.now())) {
-            throw new InvalidValueException("birthDate.future");
+            throw InvalidValueException.required("birthDate.future");
         }
     }
 
