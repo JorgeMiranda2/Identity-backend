@@ -9,13 +9,13 @@ public final class InstitutionalEmail {
     private InstitutionalEmail(String email) {
 
         if (email == null) {
-            throw new InvalidValueException("institutionalEmail.null");
+            throw InvalidValueException.invalidFormat("institutionalEmail.null");
         }
 
         String trimmedEmail = email.trim();
 
         if (trimmedEmail.isBlank()) {
-            throw new InvalidValueException("institutionalEmail.blank");
+            throw InvalidValueException.invalidFormat("institutionalEmail.blank");
         }
 
         this.email = trimmedEmail;
@@ -29,7 +29,7 @@ public final class InstitutionalEmail {
             throw new IllegalArgumentException("InstitutionalEmailPolicy is required to create InstitutionalEmail");
         }
         if (!policy.isValid(rawEmail)) {
-            throw new InvalidValueException("institutionalEmail.format");
+            throw InvalidValueException.invalidFormat("institutionalEmail.format");
         }
 
         return new InstitutionalEmail(rawEmail);

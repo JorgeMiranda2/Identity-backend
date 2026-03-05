@@ -11,11 +11,11 @@ public abstract class DomainException extends RuntimeException {
         this.field = field;
     }
 
-    public String code() {
+    public String getCode() {
         return code;
     }
 
-    public String field() {
+    public String getField() {
         return field;
     }
 }

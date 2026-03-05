@@ -19,7 +19,7 @@ import java.util.UUID;
 public class UserEntity {
 
     @Id
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false, length = 36, columnDefinition = "CHAR(36)")
     private String id;
 
     @Column(name = "first_name", nullable = false)
@@ -40,7 +40,7 @@ public class UserEntity {
     @Column(name= "identification_number", unique = true)
     private String identificationNumber;
 
-    @Column(name= "identification_type_id")
+    @Column(name= "identification_type_id", length = 36, columnDefinition = "CHAR(36)")
     private String identificationTypeId;
 
     @Column(name = "institutional_email", unique = true)

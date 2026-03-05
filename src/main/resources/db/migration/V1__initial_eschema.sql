@@ -11,24 +11,54 @@ CREATE TABLE states (
     deleted_at TIMESTAMP NULL
 );
 
-
 -- =========================
--- USERS (PROFILE)
+-- IDENTIFICATION TYPES
 -- =========================
-CREATE TABLE users (
+CREATE TABLE identification_types (
     id char(36) PRIMARY KEY,
-    first_name VARCHAR(64) NOT NULL,
-    last_name VARCHAR(64) NOT NULL,
-    phone_number VARCHAR(32),
-    birth_date DATE,
-    personal_email VARCHAR(256),
-    institutional_email VARCHAR(256),
+    code VARCHAR(32) NOT NULL UNIQUE,
+    name VARCHAR(64) NOT NULL UNIQUE,
+    description TEXT,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NULL,
     deleted_at TIMESTAMP NULL
 );
 
-CREATE UNIQUE INDEX ux_users_personal_email ON users(personal_email);
+
+-- =========================
+-- USERS (PROFILE)
+-- =========================
+CREATE TABLE users (
+    id CHAR(36) PRIMARY KEY,
+
+    first_name VARCHAR(64) NOT NULL,
+    last_name VARCHAR(64) NOT NULL,
+
+    phone_number VARCHAR(32),
+    birth_date DATE,
+
+    personal_email VARCHAR(256),
+    institutional_email VARCHAR(256),
+
+    identification_number VARCHAR(64) NOT NULL,
+    identification_type_id CHAR(36) NOT NULL,
+
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NULL,
+    deleted_at TIMESTAMP NULL,
+
+    CONSTRAINT fk_users_identification_type
+        FOREIGN KEY (identification_type_id)
+        REFERENCES identification_types(id)
+);
+
+-- Email personal único
+CREATE UNIQUE INDEX ux_users_personal_email
+ON users (personal_email);
+
+-- Identificación única (tipo + número)
+CREATE UNIQUE INDEX ux_users_identification
+ON users (identification_type_id, identification_number);
 
 -- =========================
 -- USER LOGIN / CREDENTIALS

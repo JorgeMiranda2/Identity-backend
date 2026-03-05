@@ -2,8 +2,10 @@ package com.jmiranda.identity.domain.Identification.model;
 
 import com.jmiranda.identity.domain.shared.exception.InvalidValueException;
 
-public record IdentificationTypeCode(String value) {
-    public IdentificationTypeCode {
+public class IdentificationTypeCode{
+
+    private String value;
+    private IdentificationTypeCode(String value) {
         if (value == null) {
             throw InvalidValueException.invalidFormat("IdentificationTypeCode");
         }
@@ -12,5 +14,14 @@ public record IdentificationTypeCode(String value) {
             throw InvalidValueException.invalidFormat("IdentificationTypeCode");
 
         }
+        this.value = value;
+    }
+
+    public static IdentificationTypeCode of(String value) {
+        return new IdentificationTypeCode(value);
+    }
+
+    public String value() {
+        return value;
     }
 }
