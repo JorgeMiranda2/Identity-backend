@@ -1,21 +1,34 @@
 package com.jmiranda.identity.domain.user.model;
 
+import com.jmiranda.identity.domain.role.model.RoleId;
 import com.jmiranda.identity.domain.shared.valueobject.InstitutionalEmail;
 import com.jmiranda.identity.domain.shared.valueobject.PersonalEmail;
 
 import java.time.Clock;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public final class HumanUser extends User {
 
-    private FirstName firstName;
-    private LastName lastName;
-    private PersonalEmail personalEmail;
-    private InstitutionalEmail institutionalEmail;
-    private PhoneNumber phoneNumber;
-    private BirthDate birthDate;
-    private Identification identification;
+    private final FirstName firstName;
+    private final LastName lastName;
+    private final PersonalEmail personalEmail;
+    private final InstitutionalEmail institutionalEmail;
+    private final PhoneNumber phoneNumber;
+    private final BirthDate birthDate;
+    private final Identification identification;
+
+    private Set<RoleId> rolesId = new HashSet<>();
+
+    public void assignRoleId(RoleId roleId) {
+        this.rolesId.add(roleId);
+    }
+
+    public Set<RoleId> getRolesId() {
+        return rolesId;
+    }
 
     private HumanUser(UserId id, Instant createdAt, FirstName firstName, LastName lastName,
                  PersonalEmail personalEmail, InstitutionalEmail institutionalEmail,
@@ -64,9 +77,10 @@ public final class HumanUser extends User {
             PhoneNumber phone,
             BirthDate birthDate,
             Identification identification,
+            Set<RoleId> rolesId,
             Instant createdAt
     ) {
-        return new HumanUser(
+        HumanUser user = new HumanUser(
                 id,
                 createdAt,
                 firstName,
@@ -77,6 +91,10 @@ public final class HumanUser extends User {
                 birthDate,
                 identification
         );
+
+        user.rolesId.addAll(rolesId);
+
+        return user;
     }
 
     @Override

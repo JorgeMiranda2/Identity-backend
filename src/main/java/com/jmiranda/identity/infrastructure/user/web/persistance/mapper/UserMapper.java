@@ -2,16 +2,25 @@ package com.jmiranda.identity.infrastructure.user.web.persistance.mapper;
 
 import com.jmiranda.identity.domain.Identification.model.IdentificationCode;
 import com.jmiranda.identity.domain.Identification.model.IdentificationTypeId;
+import com.jmiranda.identity.domain.role.model.RoleId;
 import com.jmiranda.identity.domain.shared.valueobject.InstitutionalEmail;
 import com.jmiranda.identity.domain.shared.valueobject.PersonalEmail;
 import com.jmiranda.identity.domain.user.model.*;
 import com.jmiranda.identity.infrastructure.user.web.persistance.jpa.UserEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Component
 public class UserMapper {
     // Convert Entity to Domain
     public HumanUser toDomain(UserEntity entity) {
+
+        Set<RoleId> rolesId = entity.getRoles()
+                .stream()
+                .map(roleEntity -> RoleId.of(roleEntity.getId()))
+                .collect(Collectors.toSet());
 
         return HumanUser.restore(
                 UserId.of(entity.getId()),
@@ -27,6 +36,7 @@ public class UserMapper {
                         IdentificationTypeId.of(entity.getIdentificationTypeId()),
                         IdentificationCode.of(entity.getIdentificationNumber())
                         ),
+                rolesId,
                 entity.getCreatedAt()
         );
     }
