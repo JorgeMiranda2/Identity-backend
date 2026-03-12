@@ -5,6 +5,7 @@ import com.jmiranda.identity.domain.role.model.Role;
 import com.jmiranda.identity.domain.role.model.RoleId;
 import com.jmiranda.identity.domain.shared.valueobject.StateId;
 import com.jmiranda.identity.infrastructure.role.web.persistance.jpa.RoleEntity;
+import com.jmiranda.identity.infrastructure.state.web.persistance.jpa.StateEntity;
 import org.springframework.stereotype.Component;
 
 
@@ -18,7 +19,7 @@ public class RoleMapper {
                 RoleId.of(entity.getId()),
                 Code.of(entity.getName()),
                 entity.getCode(),
-                StateId.of(entity.getStateId()),
+                StateId.of(entity.getState().getId()),
                 entity.getCreatedAt()
         );
     }
@@ -30,7 +31,8 @@ public class RoleMapper {
         entity.setId(role.getId().value().toString());
         entity.setName(role.getName());
         entity.setCode(role.getCode().value());
-        entity.setStateId(role.getStateId().value());
+        StateEntity state = new StateEntity(role.getStateId().value(), null);
+        entity.setState(state);
 
         return entity;
     }

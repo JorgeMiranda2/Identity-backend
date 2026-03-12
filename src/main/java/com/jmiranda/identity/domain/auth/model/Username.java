@@ -20,4 +20,8 @@ public final class Username {
     public String value() {
         return value;
     }
+
+    public static Username of(String value) {
+        return new Username(value);
+    }
 }

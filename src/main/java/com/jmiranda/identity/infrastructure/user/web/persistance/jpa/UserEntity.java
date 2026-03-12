@@ -1,5 +1,7 @@
 package com.jmiranda.identity.infrastructure.user.web.persistance.jpa;
 
+import com.jmiranda.identity.infrastructure.Identification.type.web.persistance.jpa.IdentificationTypeEntity;
+import com.jmiranda.identity.infrastructure.auth.web.persistance.jpa.LoginEntity;
 import com.jmiranda.identity.infrastructure.role.web.persistance.jpa.RoleEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -39,11 +41,16 @@ public class UserEntity {
     @Column(name= "identification_number", unique = true)
     private String identificationNumber;
 
-    @Column(name= "identification_type_id", length = 36, columnDefinition = "CHAR(36)")
-    private String identificationTypeId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "identification_type_id", nullable = false)
+    private IdentificationTypeEntity identificationType;
 
     @Column(name = "institutional_email", unique = true)
     private String institutionalEmail;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    private LoginEntity login;
+
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

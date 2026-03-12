@@ -21,4 +21,16 @@ public final class IdentificationType {
     public IdentificationTypeCode getCode() {
         return code;
     }
+
+    public IdentificationTypeId getId() {
+        return id;
+    }
+
+    public IdentificationTypeName getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
 }

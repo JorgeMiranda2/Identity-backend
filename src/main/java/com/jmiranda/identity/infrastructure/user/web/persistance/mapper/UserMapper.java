@@ -1,11 +1,13 @@
 package com.jmiranda.identity.infrastructure.user.web.persistance.mapper;
 
 import com.jmiranda.identity.domain.Identification.model.IdentificationCode;
+import com.jmiranda.identity.domain.Identification.model.IdentificationType;
 import com.jmiranda.identity.domain.Identification.model.IdentificationTypeId;
 import com.jmiranda.identity.domain.role.model.RoleId;
 import com.jmiranda.identity.domain.shared.valueobject.InstitutionalEmail;
 import com.jmiranda.identity.domain.shared.valueobject.PersonalEmail;
 import com.jmiranda.identity.domain.user.model.*;
+import com.jmiranda.identity.infrastructure.Identification.type.web.persistance.jpa.IdentificationTypeEntity;
 import com.jmiranda.identity.infrastructure.user.web.persistance.jpa.UserEntity;
 import org.springframework.stereotype.Component;
 
@@ -33,7 +35,7 @@ public class UserMapper {
                 new PhoneNumber(entity.getPhoneNumber()),
                 BirthDate.of(entity.getBirthDate()),
                 Identification.of(
-                        IdentificationTypeId.of(entity.getIdentificationTypeId()),
+                        IdentificationTypeId.of(entity.getIdentificationType().getId()),
                         IdentificationCode.of(entity.getIdentificationNumber())
                         ),
                 rolesId,
@@ -46,7 +48,7 @@ public class UserMapper {
         UserEntity entity = new UserEntity();
 
         entity.setId(user.getId().value().toString());
-        entity.setFirstName(user.getFirstName(  ).value());
+        entity.setFirstName(user.getFirstName().value());
         entity.setLastName(user.getLastName().value());
         entity.setPersonalEmail(user.getPersonalEmail().value());
 
@@ -64,8 +66,10 @@ public class UserMapper {
 
         entity.setBirthDate(user.getBirthDate().value());
 
-        entity.setIdentificationTypeId(
-                user.getIdentification().getTypeId().value().toString()
+        IdentificationTypeEntity identificationType = new IdentificationTypeEntity();
+        identificationType.setId(user.getIdentification().getTypeId().value().toString());
+        entity.setIdentificationType(
+                identificationType
         );
 
         entity.setIdentificationNumber(

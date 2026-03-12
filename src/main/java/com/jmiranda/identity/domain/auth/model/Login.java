@@ -6,18 +6,17 @@ import com.jmiranda.identity.domain.shared.valueobject.StateId;
 import com.jmiranda.identity.domain.user.model.UserId;
 
 import java.time.Instant;
-import java.util.UUID;
 
 public class Login {
     private final LoginId id;
     private final Username username;
-    private UserPassword password;
+    private UserPasswordHash password;
     private final UserId userId;
     private final StateId stateId;
     private final Instant createdAt;
     private Instant updatedAt;
 
-    private Login(LoginId loginId, Username username, UserPassword password, UserId userId, StateId stateId, Instant createdAt, Instant updatedAt) {
+    private Login(LoginId loginId, Username username, UserPasswordHash password, UserId userId, StateId stateId, Instant createdAt, Instant updatedAt) {
         this.id = loginId;
         this.username = username;
         this.password = password;
@@ -27,7 +26,7 @@ public class Login {
         this.updatedAt = updatedAt;
     }
 
-    public static Login create(UserId userId, Username username, UserPassword password) {
+    public static Login create(UserId userId, Username username, UserPasswordHash password) {
         return new Login(
                 LoginId.generate(),
                 username,
@@ -39,12 +38,12 @@ public class Login {
         );
     }
 
-    public static Login from(LoginId id, Username username, UserPassword password, UserId userId, StateId stateId, Instant createdAt, Instant updatedAt) {
+    public static Login from(LoginId id, Username username, UserPasswordHash password, UserId userId, StateId stateId, Instant createdAt, Instant updatedAt) {
         return new Login(id, username, password, userId, stateId, createdAt, updatedAt);
     }
 
     public void changePassword(String newRawPassword, PasswordPolicy policy, PasswordHasher hasher) {
-        this.password = UserPassword.create(newRawPassword, policy, hasher);
+        this.password = UserPasswordHash.create(newRawPassword, policy, hasher);
         this.updatedAt = Instant.now();
     }
 
@@ -56,7 +55,7 @@ public class Login {
         return username;
     }
 
-    public UserPassword getPassword() {
+    public UserPasswordHash getPasswordHash() {
         return password;
     }
 

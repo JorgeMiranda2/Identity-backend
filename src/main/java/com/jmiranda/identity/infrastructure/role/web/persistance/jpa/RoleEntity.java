@@ -1,17 +1,18 @@
 package com.jmiranda.identity.infrastructure.role.web.persistance.jpa;
 
+import com.jmiranda.identity.infrastructure.shared.persistance.jpa.base.AuditableEntity;
+import com.jmiranda.identity.infrastructure.state.web.persistance.jpa.StateEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
 import java.util.Set;
 
 @Table(name= "roles")
 @Getter
 @Setter
 @Entity
-public class RoleEntity {
+public class RoleEntity extends AuditableEntity {
 
     @Id
     @Column(nullable = false, updatable = false, length = 36, columnDefinition = "CHAR(36)")
@@ -23,18 +24,11 @@ public class RoleEntity {
     @Column(nullable = false)
     private String name;
 
-    // No existe entidad State en el proyecto; mapear el id como columna simple
-    @Column(name = "state_id", nullable = false)
-    private Long stateId;
+    // Mapear correctamente la relación many-to-one con StateEntity en la columna state_id
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "state_id", nullable = false)
+    private StateEntity state;
 
-    @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
-
-    @Column(name = "updated_at", nullable = false)
-    private Instant updatedAt;
-
-    @Column(name = "deleted_at")
-    private Instant deletedAt;
 
     // No existe la entidad Module en el proyecto; mapear la relación many-to-many
     // usando los ids de módulos en la tabla de unión `role_modules`.
