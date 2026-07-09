@@ -5,6 +5,8 @@ import com.jmiranda.identity.domain.auth.repository.LoginRepository;
 import com.jmiranda.identity.infrastructure.auth.web.mapper.LoginMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public class JpaLoginRepository implements LoginRepository {
 
@@ -17,14 +19,18 @@ public class JpaLoginRepository implements LoginRepository {
     }
 
     @Override
+    public void save(Login login) {
+        springDataRepository.save(loginMapper.toEntity(login));
+    }
+
+    @Override
     public boolean existsByUsername(String username) {
         return springDataRepository.existsByUsername(username);
     }
 
     @Override
-    public Login findByUsername(String username) {
-
-        return loginMapper.toDomain(springDataRepository.findByUsername(username));
-
+    public Optional<Login> findByUsername(String username) {
+        return springDataRepository.findByUsername(username)
+                .map(loginMapper::toDomain);
     }
 }

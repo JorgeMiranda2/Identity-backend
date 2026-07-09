@@ -1,6 +1,7 @@
 package com.jmiranda.identity.infrastructure.user.web.persistance.jpa;
 
 import com.jmiranda.identity.domain.Identification.model.IdentificationCode;
+import com.jmiranda.identity.domain.role.model.RoleId;
 import com.jmiranda.identity.domain.shared.valueobject.PersonalEmail;
 import com.jmiranda.identity.domain.user.model.HumanUser;
 import com.jmiranda.identity.domain.user.model.UserId;
@@ -9,18 +10,23 @@ import com.jmiranda.identity.infrastructure.user.web.persistance.mapper.UserMapp
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Repository
 public class JpaUserRepository implements UserRepository {
 
     private final SpringDataUserRepository springDataRepository;
+    private final SpringDataUserRoleRepository springDataUserRoleRepository;
     private final UserMapper mapper;
 
     public JpaUserRepository(
             SpringDataUserRepository springDataRepository,
+            SpringDataUserRoleRepository springDataUserRoleRepository,
             UserMapper mapper
     ) {
         this.springDataRepository = springDataRepository;
+        this.springDataUserRoleRepository = springDataUserRoleRepository;
         this.mapper = mapper;
     }
 
@@ -32,9 +38,20 @@ public class JpaUserRepository implements UserRepository {
 
     @Override
     public Optional<HumanUser> findById(UserId id) {
-        return springDataRepository
-                .findById(id.value())
-                .map(mapper::toDomain);
+        UserEntity entity = springDataRepository.findById(id.value().toString())
+                .orElseThrow();
+
+        HumanUser user = mapper.toDomain(entity);
+
+        // 🔥 AQUÍ cargas los roles
+        Set<RoleId> rolesId = springDataUserRoleRepository.findByUserId(id.value().toString())
+                .stream()
+                .map(ur -> RoleId.of(ur.getRole().getId()))
+                .collect(Collectors.toSet());
+
+        rolesId.forEach(user::assignRoleId);
+
+        return Optional.of(user);
     }
 
     @Override

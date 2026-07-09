@@ -32,7 +32,7 @@ public class JpaRoleRepository implements RoleRepository {
     @Override
     public Optional<Role> findById(RoleId id) {
         return springDataRepository
-                .findById(id.value())
+                .findById(id.value().toString())
                 .map(mapper::toDomain);
     }
 

@@ -18,7 +18,10 @@ spring:
       hibernate:
         ddl-auto: validate
 
-
+    security:
+      jwt:
+        secret: ${SECRET_KEY_JAVA_IDENTIFY:xQvA4tJxgYzK5Pq7mR9uW2F8aBcDeFgHiJkLmNoPqRsTuVwXyZ1234567890AbCdEf}
+        expiration: 86400000
 
 institution:
   email:

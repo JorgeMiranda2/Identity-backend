@@ -48,17 +48,6 @@ public class UserEntity {
     @Column(name = "institutional_email", unique = true)
     private String institutionalEmail;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
-    private LoginEntity login;
-
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_login_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<RoleEntity> roles = new HashSet<>();
 
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;

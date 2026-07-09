@@ -19,10 +19,6 @@ public class UserMapper {
     // Convert Entity to Domain
     public HumanUser toDomain(UserEntity entity) {
 
-        Set<RoleId> rolesId = entity.getRoles()
-                .stream()
-                .map(roleEntity -> RoleId.of(roleEntity.getId()))
-                .collect(Collectors.toSet());
 
         return HumanUser.restore(
                 UserId.of(entity.getId()),
@@ -38,7 +34,7 @@ public class UserMapper {
                         IdentificationTypeId.of(entity.getIdentificationType().getId()),
                         IdentificationCode.of(entity.getIdentificationNumber())
                         ),
-                rolesId,
+                Set.of(), // Roles are not loaded in this mapper, they should be loaded separately
                 entity.getCreatedAt()
         );
     }
