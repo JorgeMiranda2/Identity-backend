@@ -8,7 +8,10 @@ import com.jmiranda.identity.domain.user.model.HumanUser;
 import com.jmiranda.identity.domain.user.model.UserId;
 import com.jmiranda.identity.domain.user.repository.UserRepository;
 import com.jmiranda.identity.domain.user.repository.UserRoleRepository;
+import com.jmiranda.identity.infrastructure.role.web.persistance.jpa.RoleEntity;
 import com.jmiranda.identity.infrastructure.user.web.persistance.mapper.UserMapper;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
 import java.time.Clock;
@@ -23,6 +26,9 @@ public class JpaUserRoleRepository implements UserRoleRepository {
     private final UserMapper mapper;
     private final Clock systemClock;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     public JpaUserRoleRepository(
             SpringDataUserRoleRepository springDataRepository,
             UserMapper mapper,
@@ -35,15 +41,14 @@ public class JpaUserRoleRepository implements UserRoleRepository {
 
     @Override
     public void assign(UserId userId, RoleId roleId) {
+        RoleEntity roleRef = entityManager.getReference(RoleEntity.class, roleId.value().toString());
+
         UserRoleEntity entity = new UserRoleEntity(
                 UUID.randomUUID().toString(),
                 userId.value().toString(),
-                null,
+                roleRef,
                 systemClock.instant()
         );
-        RoleEntity roleRef = new RoleEntity();
-        roleRef.setId(roleId.value().toString());
-        entity.setRole(roleRef);
         springDataRepository.save(entity);
     }
 
@@ -57,4 +62,3 @@ public class JpaUserRoleRepository implements UserRoleRepository {
         return Optional.empty();
     }
 }
-

@@ -18,6 +18,7 @@ import com.jmiranda.identity.domain.shared.valueobject.PersonalEmail;
 import com.jmiranda.identity.domain.user.model.*;
 import com.jmiranda.identity.domain.user.repository.UserRepository;
 import com.jmiranda.identity.domain.user.repository.UserRoleRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +26,6 @@ import java.time.Clock;
 
 @Service
 public class SignUp {
-    private static final String DEFAULT_ROLE_CODE = "USER";
 
     private final UserRepository userRepository;
     private final UserRoleRepository userRoleRepository;
@@ -36,6 +36,7 @@ public class SignUp {
     private final PasswordPolicy passwordPolicy;
     private final PasswordHasher passwordHasher;
     private final Clock systemClock;
+    private final String defaultRoleCode;
 
     public SignUp(
             UserRepository userRepository,
@@ -46,7 +47,8 @@ public class SignUp {
             UsernamePolicy usernamePolicy,
             PasswordPolicy passwordPolicy,
             PasswordHasher passwordHasher,
-            Clock clock
+            Clock clock,
+            @Value("${spring.security.default-role-code}") String defaultRoleCode
     ) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
@@ -57,6 +59,7 @@ public class SignUp {
         this.passwordPolicy = passwordPolicy;
         this.passwordHasher = passwordHasher;
         this.systemClock = clock;
+        this.defaultRoleCode = defaultRoleCode;
     }
 
     @Transactional
@@ -89,8 +92,8 @@ public class SignUp {
         loginRepository.save(login);
 
         // 3) Default role assignment
-        Role defaultRole = roleRepository.findByCode(Code.of(DEFAULT_ROLE_CODE))
-                .orElseThrow(() -> new IllegalStateException("role.default.notFound:" + DEFAULT_ROLE_CODE));
+        Role defaultRole = roleRepository.findByCode(Code.of(defaultRoleCode))
+                .orElseThrow(() -> new IllegalStateException("role.default.notFound:" + defaultRoleCode));
         userRoleRepository.assign(user.getId(), defaultRole.getId());
 
         return user.getId();
