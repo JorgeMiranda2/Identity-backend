@@ -1,13 +1,13 @@
 package com.jmiranda.identity.infrastructure.user.web.persistance.mapper;
 
 import com.jmiranda.identity.domain.Identification.model.IdentificationCode;
-import com.jmiranda.identity.domain.Identification.model.IdentificationType;
 import com.jmiranda.identity.domain.Identification.model.IdentificationTypeId;
-import com.jmiranda.identity.domain.role.model.RoleId;
+import com.jmiranda.identity.domain.auth.model.Login;
 import com.jmiranda.identity.domain.shared.valueobject.InstitutionalEmail;
 import com.jmiranda.identity.domain.shared.valueobject.PersonalEmail;
 import com.jmiranda.identity.domain.user.model.*;
 import com.jmiranda.identity.infrastructure.Identification.type.web.persistance.jpa.IdentificationTypeEntity;
+import com.jmiranda.identity.infrastructure.auth.web.persistance.mapper.LoginMapper;
 import com.jmiranda.identity.infrastructure.user.web.persistance.jpa.UserEntity;
 import org.springframework.stereotype.Component;
 
@@ -16,9 +16,17 @@ import java.util.stream.Collectors;
 
 @Component
 public class UserMapper {
+
+    private final LoginMapper loginMapper;
+
+    public UserMapper(LoginMapper loginMapper){
+        this.loginMapper = loginMapper;
+    }
     // Convert Entity to Domain
     public HumanUser toDomain(UserEntity entity) {
-
+        Set<Login> logins = entity.getLogins().stream()
+            .map(loginMapper::toDomain)
+            .collect(Collectors.toSet());
 
         return HumanUser.restore(
                 UserId.of(entity.getId()),
@@ -34,7 +42,7 @@ public class UserMapper {
                         IdentificationTypeId.of(entity.getIdentificationType().getId()),
                         IdentificationCode.of(entity.getIdentificationNumber())
                         ),
-                Set.of(), // Roles are not loaded in this mapper, they should be loaded separately
+                Set.of(), // Logins
                 entity.getCreatedAt()
         );
     }

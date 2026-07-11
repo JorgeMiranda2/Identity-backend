@@ -14,15 +14,15 @@ spring:
     baseline-on-migrate: true
     validate-on-migrate: true
 
-    jpa:
-      hibernate:
-        ddl-auto: validate
+  jpa:
+    hibernate:
+      ddl-auto: validate
 
-    security:
-      jwt:
-        secret: ${SECRET_KEY_JAVA_IDENTIFY:xQvA4tJxgYzK5Pq7mR9uW2F8aBcDeFgHiJkLmNoPqRsTuVwXyZ1234567890AbCdEf}
-        expiration: 86400000
-      default-role-code: ${DEFAULT_ROLE_CODE_IDENTIFY:USER}
+  security:
+    jwt:
+      secret: ${SECRET_KEY_JAVA_IDENTIFY:xQvA4tJxgYzK5Pq7mR9uW2F8aBcDeFgHiJkLmNoPqRsTuVwXyZ1234567890AbCdEf}
+      expiration: 86400000
+    default-role-code: ${DEFAULT_ROLE_CODE_IDENTIFY:USER}
 
 institution:
   email:

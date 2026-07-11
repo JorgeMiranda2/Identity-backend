@@ -10,10 +10,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.crypto.SecretKey;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Date;
 
+@Service
 public class JwtService {
 
     private final JwtProperties jwtProperties;

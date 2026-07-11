@@ -94,7 +94,7 @@ public class SignUp {
         // 3) Default role assignment
         Role defaultRole = roleRepository.findByCode(Code.of(defaultRoleCode))
                 .orElseThrow(() -> new IllegalStateException("role.default.notFound:" + defaultRoleCode));
-        userRoleRepository.assign(user.getId(), defaultRole.getId());
+        userRoleRepository.assign(login.getId(), defaultRole.getId());
 
         return user.getId();
     }

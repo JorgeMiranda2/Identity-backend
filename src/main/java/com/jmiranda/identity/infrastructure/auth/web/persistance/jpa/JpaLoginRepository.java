@@ -2,7 +2,7 @@ package com.jmiranda.identity.infrastructure.auth.web.persistance.jpa;
 
 import com.jmiranda.identity.domain.auth.model.Login;
 import com.jmiranda.identity.domain.auth.repository.LoginRepository;
-import com.jmiranda.identity.infrastructure.auth.web.mapper.LoginMapper;
+import com.jmiranda.identity.infrastructure.auth.web.persistance.mapper.LoginMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;

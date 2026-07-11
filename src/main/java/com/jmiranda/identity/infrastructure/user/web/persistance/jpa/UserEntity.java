@@ -48,6 +48,9 @@ public class UserEntity {
     @Column(name = "institutional_email", unique = true)
     private String institutionalEmail;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<LoginEntity> logins = new HashSet<>();
+
 
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;

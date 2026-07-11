@@ -63,7 +63,7 @@ ON users (identification_type_id, identification_number);
 -- =========================
 -- USER LOGIN / CREDENTIALS
 -- =========================
-CREATE TABLE user_logins (
+CREATE TABLE logins (
     id char(36) PRIMARY KEY,
     username VARCHAR(256) NOT NULL,
     password_hash TEXT NOT NULL,
@@ -78,8 +78,8 @@ CREATE TABLE user_logins (
         FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-CREATE UNIQUE INDEX ux_user_logins_username ON user_logins(username);
-CREATE INDEX idx_user_logins_state ON user_logins(state_id);
+CREATE UNIQUE INDEX ux_logins_username ON logins(username);
+CREATE INDEX idx_logins_state ON logins(state_id);
 
 -- =========================
 -- ROLES (POSITION / BUSINESS ROLE)
@@ -163,25 +163,42 @@ CREATE INDEX idx_mp_permission ON module_permissions(permission_id);
 -- =========================
 -- USER ↔ ROLE
 -- =========================
-CREATE TABLE user_roles (
-    user_login_id char(36) NOT NULL,
-    role_id char(36) NOT NULL,
-    PRIMARY KEY (user_login_id, role_id),
-    CONSTRAINT fk_ur_login FOREIGN KEY (user_login_id) REFERENCES user_logins(id),
-    CONSTRAINT fk_ur_role FOREIGN KEY (role_id) REFERENCES roles(id)
-);
+CREATE TABLE login_roles (
+    id CHAR(36) PRIMARY KEY,
 
-CREATE INDEX idx_ur_role ON user_roles(role_id);
+    login_id CHAR(36) NOT NULL,
+    role_id CHAR(36) NOT NULL,
+
+    assigned_by CHAR(36) NULL,
+    assigned_at TIMESTAMP NOT NULL,
+
+    assignment_source VARCHAR(30) NOT NULL,
+
+    CONSTRAINT fk_ur_login
+        FOREIGN KEY (login_id)
+        REFERENCES logins(id),
+
+    CONSTRAINT fk_ur_role
+        FOREIGN KEY (role_id)
+        REFERENCES roles(id),
+
+    CONSTRAINT fk_ur_assigned_by
+        FOREIGN KEY (assigned_by)
+        REFERENCES logins(id),
+
+    CONSTRAINT uk_user_role
+        UNIQUE(login_id, role_id)
+);
 
 -- =========================
 -- USER ↔ MODULE (OVERRIDE)
 -- =========================
-CREATE TABLE user_modules (
-    user_login_id char(36) NOT NULL,
+CREATE TABLE login_modules (
+    login_id char(36) NOT NULL,
     module_id char(36) NOT NULL,
-    PRIMARY KEY (user_login_id, module_id),
-    CONSTRAINT fk_um_login FOREIGN KEY (user_login_id) REFERENCES user_logins(id),
+    PRIMARY KEY (login_id, module_id),
+    CONSTRAINT fk_um_login FOREIGN KEY (login_id) REFERENCES logins(id),
     CONSTRAINT fk_um_module FOREIGN KEY (module_id) REFERENCES modules(id)
 );
 
-CREATE INDEX idx_um_module ON user_modules(module_id);
+CREATE INDEX idx_um_module ON login_modules(module_id);

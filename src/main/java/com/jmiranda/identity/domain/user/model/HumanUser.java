@@ -1,6 +1,6 @@
 package com.jmiranda.identity.domain.user.model;
 
-import com.jmiranda.identity.domain.role.model.RoleId;
+import com.jmiranda.identity.domain.auth.model.LoginId;
 import com.jmiranda.identity.domain.shared.valueobject.InstitutionalEmail;
 import com.jmiranda.identity.domain.shared.valueobject.PersonalEmail;
 
@@ -20,14 +20,14 @@ public final class HumanUser extends User {
     private final BirthDate birthDate;
     private final Identification identification;
 
-    private Set<RoleId> rolesId = new HashSet<>();
+    private Set<LoginId> loginsId = new HashSet<>();
 
-    public void assignRoleId(RoleId roleId) {
-        this.rolesId.add(roleId);
+    public void assignLoginId(LoginId roleId) {
+        this.loginsId.add(roleId);
     }
 
-    public Set<RoleId> getRolesId() {
-        return rolesId;
+    public Set<LoginId> getloginsId() {
+        return loginsId;
     }
 
     private HumanUser(UserId id, Instant createdAt, FirstName firstName, LastName lastName,
@@ -77,7 +77,7 @@ public final class HumanUser extends User {
             PhoneNumber phone,
             BirthDate birthDate,
             Identification identification,
-            Set<RoleId> rolesId,
+            Set<LoginId> loginsId,
             Instant createdAt
     ) {
         HumanUser user = new HumanUser(
@@ -92,7 +92,7 @@ public final class HumanUser extends User {
                 identification
         );
 
-        user.rolesId.addAll(rolesId);
+        user.loginsId.addAll(loginsId);
 
         return user;
     }

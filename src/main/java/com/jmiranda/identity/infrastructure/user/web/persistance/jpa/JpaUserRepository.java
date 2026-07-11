@@ -6,6 +6,8 @@ import com.jmiranda.identity.domain.shared.valueobject.PersonalEmail;
 import com.jmiranda.identity.domain.user.model.HumanUser;
 import com.jmiranda.identity.domain.user.model.UserId;
 import com.jmiranda.identity.domain.user.repository.UserRepository;
+import com.jmiranda.identity.infrastructure.auth.web.persistance.jpa.LoginEntity;
+import com.jmiranda.identity.infrastructure.auth.web.persistance.jpa.SpringDataLoginRepository;
 import com.jmiranda.identity.infrastructure.user.web.persistance.mapper.UserMapper;
 import org.springframework.stereotype.Repository;
 
@@ -17,16 +19,19 @@ import java.util.stream.Collectors;
 public class JpaUserRepository implements UserRepository {
 
     private final SpringDataUserRepository springDataRepository;
-    private final SpringDataUserRoleRepository springDataUserRoleRepository;
+    private final SpringDataLoginRoleRepository springDataLoginRoleRepository;
+    private final SpringDataLoginRepository springDataLoginRepository;
     private final UserMapper mapper;
 
     public JpaUserRepository(
             SpringDataUserRepository springDataRepository,
-            SpringDataUserRoleRepository springDataUserRoleRepository,
+            SpringDataLoginRoleRepository springDataLoginRoleRepository,
+            SpringDataLoginRepository springDataLoginRepository,
             UserMapper mapper
     ) {
         this.springDataRepository = springDataRepository;
-        this.springDataUserRoleRepository = springDataUserRoleRepository;
+        this.springDataLoginRoleRepository = springDataLoginRoleRepository;
+        this.springDataLoginRepository = springDataLoginRepository;
         this.mapper = mapper;
     }
 
@@ -43,13 +48,10 @@ public class JpaUserRepository implements UserRepository {
 
         HumanUser user = mapper.toDomain(entity);
 
-        // 🔥 AQUÍ cargas los roles
-        Set<RoleId> rolesId = springDataUserRoleRepository.findByUserId(id.value().toString())
-                .stream()
-                .map(ur -> RoleId.of(ur.getRole().getId()))
-                .collect(Collectors.toSet());
+        // Obtener logins
 
-        rolesId.forEach(user::assignRoleId);
+        Optional<Set<LoginEntity>> loginEntity = springDataLoginRepository.findByUser_id(id.value().toString());
+
 
         return Optional.of(user);
     }

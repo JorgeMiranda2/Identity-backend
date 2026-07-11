@@ -2,10 +2,14 @@ package com.jmiranda.identity.domain.auth.model;
 
 import com.jmiranda.identity.domain.auth.policy.PasswordPolicy;
 import com.jmiranda.identity.domain.auth.services.PasswordHasher;
+import com.jmiranda.identity.domain.role.model.RoleId;
 import com.jmiranda.identity.domain.shared.valueobject.StateId;
 import com.jmiranda.identity.domain.user.model.UserId;
 
 import java.time.Instant;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Login {
     private final LoginId id;
@@ -15,6 +19,7 @@ public class Login {
     private final StateId stateId;
     private final Instant createdAt;
     private Instant updatedAt;
+    private final Set<RoleId> rolesId = new HashSet<>();
 
     private Login(LoginId loginId, Username username, UserPasswordHash password, UserId userId, StateId stateId, Instant createdAt, Instant updatedAt) {
         this.id = loginId;
@@ -46,6 +51,9 @@ public class Login {
         this.password = UserPasswordHash.create(newRawPassword, policy, hasher);
         this.updatedAt = Instant.now();
     }
+
+    public void assignRoleId(RoleId roleId) { this.rolesId.add(roleId); }
+    public Set<RoleId> getRolesId() { return Collections.unmodifiableSet(rolesId); }
 
     public LoginId getId() {
         return id;
