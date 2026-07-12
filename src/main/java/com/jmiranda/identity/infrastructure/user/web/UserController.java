@@ -5,6 +5,7 @@ import com.jmiranda.identity.application.user.create.CreateHumanUserCommand;
 import com.jmiranda.identity.domain.user.model.UserId;
 import com.jmiranda.identity.infrastructure.user.web.dto.request.CreateHumanUserRequest;
 import com.jmiranda.identity.infrastructure.user.web.dto.response.UserIdResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +25,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserIdResponse> create(
-            @RequestBody CreateHumanUserRequest request
+            @Valid @RequestBody CreateHumanUserRequest request
     ) {
 
         CreateHumanUserCommand command =

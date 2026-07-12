@@ -5,6 +5,7 @@ import com.jmiranda.identity.application.auth.SignUpCommand;
 import com.jmiranda.identity.domain.user.model.UserId;
 import com.jmiranda.identity.infrastructure.user.web.dto.request.SignUpRequest;
 import com.jmiranda.identity.infrastructure.user.web.dto.response.UserIdResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +23,7 @@ public class AuthController {
     }
 
     @PostMapping
-    public ResponseEntity<UserIdResponse> signUp(@RequestBody SignUpRequest request){
+    public ResponseEntity<UserIdResponse> signUp(@Valid @RequestBody SignUpRequest request){
         SignUpCommand signUpCommand = new SignUpCommand(
                 request.firstName(),
                 request.lastName(),

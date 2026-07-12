@@ -12,6 +12,7 @@ import com.jmiranda.identity.domain.auth.services.PasswordHasher;
 import com.jmiranda.identity.domain.role.model.Code;
 import com.jmiranda.identity.domain.role.model.Role;
 import com.jmiranda.identity.domain.role.repository.RoleRepository;
+import com.jmiranda.identity.domain.shared.exception.ResourceAlreadyExistsException;
 import com.jmiranda.identity.domain.shared.policy.InstitutionalEmailPolicy;
 import com.jmiranda.identity.domain.shared.valueobject.InstitutionalEmail;
 import com.jmiranda.identity.domain.shared.valueobject.PersonalEmail;
@@ -83,7 +84,7 @@ public class SignUp {
 
         // 2) Credentials (Login)
         if (loginRepository.existsByUsername(command.username())) {
-            throw new IllegalStateException("auth.username.alreadyExists");
+            throw ResourceAlreadyExistsException.forField("username");
         }
         Username username = Username.create(command.username(), usernamePolicy);
         UserPasswordHash passwordHash = UserPasswordHash.create(
