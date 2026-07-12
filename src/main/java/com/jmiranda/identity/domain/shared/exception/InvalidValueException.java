@@ -4,11 +4,11 @@ public class InvalidValueException extends DomainException {
 
     // Guardamos el campo por si queremos enviarlo en el JSON de respuesta
     // (Opcional, pero útil para el frontend)
-    private final String field;
+    private final String message;
 
     private InvalidValueException(String field, String code, String message) {
-        super(code, message);
-        this.field = field;
+        super(code, field);
+        this.message = message;
     }
 
     // Factory para formato inválido
@@ -30,7 +30,7 @@ public class InvalidValueException extends DomainException {
     }
 
     // Getter para que el ExceptionHandler lo use
-    public String getField() {
-        return field;
+    public String getMessage() {
+        return message;
     }
 }
